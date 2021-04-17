@@ -276,6 +276,240 @@ void wavelet1D()
 	waitKey();
 }
 
+Mat_<uchar> LL(Mat_<uchar> img)
+{
+	int contor = 0;
+	Mat_<uchar> dest = Mat_<uchar>(img.rows / 2, img.cols);
+	Mat_<uchar> LL = Mat_<uchar>(img.rows / 2, img.cols / 2);
+	for (int j = 0; j < img.cols; j++)
+	{
+		int* k = (int*)malloc(sizeof(int) * img.rows);
+		for (int i = 0; i < img.rows; i++)
+		{
+			k[i] = img(i, j);
+		}
+		int* k1 = getLow(k, img.rows);
+		for (int i = 0; i < img.rows / 2; i++)
+		{
+			dest(i, contor) = k1[i];
+		}
+		contor++;
+		free(k);
+		free(k1);
+	}
+	contor = 0;
+	for (int i = 0; i < dest.rows; i++)
+	{
+		int* k = (int*)malloc(sizeof(int) * dest.cols);
+		for (int j = 0; j < dest.cols; j++)
+		{
+			k[j] = dest(i, j);
+		}
+		int* k1 = getLow(k, dest.cols);
+		for (int r = 0; r < dest.cols / 2; r++)
+		{
+			LL(contor, r) = k1[r];
+		}
+		contor++;
+		free(k);
+		free(k1);
+	}
+	return LL;
+}
+
+Mat_<uchar> HH(Mat_<uchar> img)
+{
+	int contor = 0;
+	Mat_<uchar> dest = Mat_<uchar>(img.rows / 2, img.cols);
+	Mat_<uchar> HH = Mat_<uchar>(img.rows / 2, img.cols / 2);
+	for (int j = 0; j < img.cols; j++)
+	{
+		int* k = (int*)malloc(sizeof(int) * img.rows);
+		for (int i = 0; i < img.rows; i++)
+		{
+			k[i] = img(i, j);
+		}
+		int* k1 = getHigh(k, img.rows);
+		for (int r = 0; r < img.rows / 2; r++)
+		{
+			dest(r, contor) = k1[r];
+		}
+		contor++;
+		free(k);
+		free(k1);
+	}
+	contor = 0;
+	for (int i = 0; i < dest.rows; i++)
+	{
+		int* k = (int*)malloc(sizeof(int) * dest.cols);
+		for (int j = 0; j < dest.cols; j++)
+		{
+			k[j] = dest(i, j);
+		}
+		int* k1 = getHigh(k, dest.cols);
+		for (int r = 0; r < dest.cols / 2; r++)
+		{
+			HH(contor, r) = k1[r];
+		}
+		contor++;
+		free(k);
+		free(k1);
+	}
+	return HH;
+}
+Mat_<uchar> LH(Mat_<uchar> img)
+{
+	int contor = 0;
+	Mat_<uchar> dest = Mat_<uchar>(img.rows / 2, img.cols);
+	Mat_<uchar> LH = Mat_<uchar>(img.rows / 2, img.cols / 2);
+	for (int j = 0; j < img.cols; j++)
+	{
+		int* k = (int*)malloc(sizeof(int) * img.rows);
+		for (int i = 0; i < img.rows; i++)
+		{
+			k[i] = img(i, j);
+		}
+		int* k1 = getLow(k, img.rows);
+		for (int r = 0; r < img.rows / 2; r++)
+		{
+			dest(r, contor) = k1[r];
+		}
+		contor++;
+		free(k);
+		free(k1);
+	}
+	contor = 0;
+	for (int i = 0; i < dest.rows; i++)
+	{
+		int* k = (int*)malloc(sizeof(int) * dest.cols);
+		for (int j = 0; j < dest.cols; j++)
+		{
+			k[j] = dest(i, j);
+		}
+		int* k1 = getHigh(k, dest.cols);
+		for (int r = 0; r < dest.cols / 2; r++)
+		{
+			LH(contor, r) = k1[r];
+		}
+		contor++;
+		free(k);
+		free(k1);
+	}
+	return LH;
+}
+
+Mat_<uchar> HL(Mat_<uchar> img)
+{
+	int contor = 0;
+	Mat_<uchar> dest = Mat_<uchar>(img.rows / 2, img.cols);
+	Mat_<uchar> HL = Mat_<uchar>(img.rows / 2, img.cols / 2);
+	for (int j = 0; j < img.cols; j++)
+	{
+		int* k = (int*)malloc(sizeof(int) * img.rows);
+		for (int i = 0; i < img.rows; i++)
+		{
+			k[i] = img(i, j);
+		}
+		int* k1 = getHigh(k, img.rows);
+		for (int r = 0; r < img.rows / 2; r++)
+		{
+			dest(r, contor) = k1[r];
+		}
+		contor++;
+		free(k);
+		free(k1);
+	}
+	contor = 0;
+	for (int i = 0; i < dest.rows; i++)
+	{
+		int* k = (int*)malloc(sizeof(int) * dest.cols);
+		for (int j = 0; j < dest.cols; j++)
+		{
+			k[j] = dest(i, j);
+		}
+		int* k1 = getLow(k, dest.cols);
+		for (int r = 0; r < dest.cols / 2; r++)
+		{
+			HL(contor, r) = k1[r];
+		}
+		contor++;
+		free(k);
+		free(k1);
+	}
+	return HL;
+}
+
+
+Mat_<uchar> reconstructieLL(Mat_<uchar> img)
+{
+	int contor = 0;
+	Mat_<uchar> dest = Mat_<uchar>(img.rows, img.cols*2);
+	Mat_<uchar> rec = Mat_<uchar>(img.rows*2, img.cols*2);
+	for (int j = 0; j < img.rows; j++)
+	{
+		int* k = (int*)malloc(sizeof(int) * img.cols);
+		for (int i = 0; i < img.cols; i++)
+		{
+			k[i] = img(i, j);
+		}
+		int* k1 = getHighSample(k, img.cols*2);
+		for (int r = 0; r < dest.cols; r++)
+		{
+			dest(contor,r) = k1[r];
+		}
+		contor++;
+		free(k);
+		free(k1);
+	}
+
+	contor = 0;
+	for (int i = 0; i < dest.cols; i++)
+	{
+		int* k = (int*)malloc(sizeof(int) * dest.rows);
+		for (int j = 0; j < dest.rows; j++)
+		{
+			k[j] = dest(j, i);
+		}
+		int* k1 = getHighSample(k, dest.rows*2);
+		for (int r = 0; r < rec.rows; r++)
+		{
+			rec(r,contor) = k1[r];
+		}
+		contor++;
+		free(k);
+		free(k1);
+	}
+	return rec;
+}
+
+
+void wavelet2D()
+{
+	char fname[MAX_PATH];
+	openFileDlg(fname);
+	Mat_<uchar> img = imread(fname, IMREAD_GRAYSCALE);
+	Mat_<uchar> LLmat = Mat_<uchar>(img.rows / 2, img.cols / 2);
+	Mat_<uchar> LHmat = Mat_<uchar>(img.rows / 2, img.cols / 2);
+	Mat_<uchar> HLmat = Mat_<uchar>(img.rows / 2, img.cols / 2);
+	Mat_<uchar> HHmat = Mat_<uchar>(img.rows / 2, img.cols / 2);
+	Mat_<uchar> RecLLmat = Mat_<uchar>(img.rows, img.cols);
+
+	LLmat = LL(img);
+	HHmat = HH(img);
+	LHmat = LH(img);
+	HLmat = HL(img);
+	//RecLLmat = reconstructieLL(LLmat);
+
+
+	imshow("Imagine", img);
+	imshow("HHmat", HHmat);
+	imshow("LLmat", LLmat);
+	imshow("LHmat", LHmat);
+	imshow("HLmat", HLmat);
+	//imshow("ImagineRec", RecLLmat);
+	waitKey();
+}
+
 int main()
 {
 	int op;
@@ -289,7 +523,8 @@ int main()
 		printf(" 2 - Open BMP images from folder\n");
 		printf(" 3 - Color to Gray\n");
 		printf(" 4 - Test Wavelet\n");
-		printf(" 5 - Wavelet\n");
+		printf(" 5 - Wavelet1D\n");
+		printf(" 6 - Wavelet2D\n");
 		printf(" 0 - Exit\n\n");
 		printf("Option: ");
 		scanf("%d",&op);
@@ -309,6 +544,9 @@ int main()
 				break;
 			case 5:
 				wavelet1D();
+				break;
+			case 6:
+				wavelet2D();
 				break;
 		}
 	}
