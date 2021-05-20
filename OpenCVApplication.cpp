@@ -729,6 +729,10 @@ void MSE()
 	printf("LL mse: %f\n LH mse: %f\n HL mse: %f\n HH mse: %f\n", mseLL, mseLH, mseHL, mseHH);
 
 	imshow("Imagine", img);
+	imshow("ImagineLLCoef", LLmatCoef);
+	imshow("ImagineLHCoef", LHmatCoef);
+	imshow("ImagineHLCoef", HLmatCoef);
+	imshow("ImagineHHCoef", HHmatCoef);
 	waitKey(0);
 }
 int main()
