@@ -281,36 +281,36 @@ void wavelet1D()
 Mat_<uchar> LL(Mat_<uchar> img)
 {
 	int contor = 0;
-	Mat_<uchar> dest = Mat_<uchar>(img.rows / 2, img.cols);
+	Mat_<uchar> dest = Mat_<uchar>(img.rows , img.cols/2);
 	Mat_<uchar> LL = Mat_<uchar>(img.rows / 2, img.cols / 2);
-	for (int j = 0; j < img.cols; j++)
+	for (int j = 0; j < img.rows; j++)
 	{
-		int* k = (int*)malloc(sizeof(int) * img.rows);
-		for (int i = 0; i < img.rows; i++)
+		int* k = (int*)malloc(sizeof(int) * img.cols);
+		for (int i = 0; i < img.cols; i++)
 		{
-			k[i] = img(i, j);
+			k[i] = img(j,i);
 		}
-		int* k1 = getLow(k, img.rows);
-		for (int i = 0; i < img.rows / 2; i++)
+		int* k1 = getLow(k, img.cols);
+		for (int i = 0; i < img.cols / 2; i++)
 		{
-			dest(i, contor) = k1[i];
+			dest(contor,i) = k1[i];
 		}
 		contor++;
 		free(k);
 		free(k1);
 	}
 	contor = 0;
-	for (int i = 0; i < dest.rows; i++)
+	for (int i = 0; i < dest.cols; i++)
 	{
-		int* k = (int*)malloc(sizeof(int) * dest.cols);
-		for (int j = 0; j < dest.cols; j++)
+		int* k = (int*)malloc(sizeof(int) * dest.rows);
+		for (int j = 0; j < dest.rows; j++)
 		{
-			k[j] = dest(i, j);
+			k[j] = dest(j,i);
 		}
-		int* k1 = getLow(k, dest.cols);
-		for (int r = 0; r < dest.cols / 2; r++)
+		int* k1 = getLow(k, dest.rows);
+		for (int r = 0; r < dest.rows / 2; r++)
 		{
-			LL(contor, r) = k1[r];
+			LL(r,contor) = k1[r];
 		}
 		contor++;
 		free(k);
@@ -322,36 +322,36 @@ Mat_<uchar> LL(Mat_<uchar> img)
 Mat_<uchar> HH(Mat_<uchar> img)
 {
 	int contor = 0;
-	Mat_<uchar> dest = Mat_<uchar>(img.rows / 2, img.cols);
+	Mat_<uchar> dest = Mat_<uchar>(img.rows, img.cols/2);
 	Mat_<uchar> HH = Mat_<uchar>(img.rows / 2, img.cols / 2);
-	for (int j = 0; j < img.cols; j++)
+	for (int j = 0; j < img.rows; j++)
 	{
-		int* k = (int*)malloc(sizeof(int) * img.rows);
-		for (int i = 0; i < img.rows; i++)
+		int* k = (int*)malloc(sizeof(int) * img.cols);
+		for (int i = 0; i < img.cols; i++)
 		{
-			k[i] = img(i, j);
+			k[i] = img(j,i);
 		}
-		int* k1 = getHigh(k, img.rows);
-		for (int r = 0; r < img.rows / 2; r++)
+		int* k1 = getHigh(k, img.cols);
+		for (int r = 0; r < img.cols / 2; r++)
 		{
-			dest(r, contor) = k1[r];
+			dest(contor,r) = k1[r];
 		}
 		contor++;
 		free(k);
 		free(k1);
 	}
 	contor = 0;
-	for (int i = 0; i < dest.rows; i++)
+	for (int i = 0; i < dest.cols; i++)
 	{
-		int* k = (int*)malloc(sizeof(int) * dest.cols);
-		for (int j = 0; j < dest.cols; j++)
+		int* k = (int*)malloc(sizeof(int) * dest.rows);
+		for (int j = 0; j < dest.rows; j++)
 		{
-			k[j] = dest(i, j);
+			k[j] = dest(j,i);
 		}
-		int* k1 = getHigh(k, dest.cols);
-		for (int r = 0; r < dest.cols / 2; r++)
+		int* k1 = getHigh(k, dest.rows);
+		for (int r = 0; r < dest.rows / 2; r++)
 		{
-			HH(contor, r) = k1[r];
+			HH(r,contor) = k1[r];
 		}
 		contor++;
 		free(k);
@@ -362,36 +362,36 @@ Mat_<uchar> HH(Mat_<uchar> img)
 Mat_<uchar> LH(Mat_<uchar> img)
 {
 	int contor = 0;
-	Mat_<uchar> dest = Mat_<uchar>(img.rows / 2, img.cols);
+	Mat_<uchar> dest = Mat_<uchar>(img.rows , img.cols/2);
 	Mat_<uchar> LH = Mat_<uchar>(img.rows / 2, img.cols / 2);
-	for (int j = 0; j < img.cols; j++)
+	for (int j = 0; j < img.rows; j++)
 	{
-		int* k = (int*)malloc(sizeof(int) * img.rows);
-		for (int i = 0; i < img.rows; i++)
+		int* k = (int*)malloc(sizeof(int) * img.cols);
+		for (int i = 0; i < img.cols; i++)
 		{
-			k[i] = img(i, j);
+			k[i] = img(j,i);
 		}
-		int* k1 = getLow(k, img.rows);
-		for (int r = 0; r < img.rows / 2; r++)
+		int* k1 = getLow(k, img.cols);
+		for (int r = 0; r < img.cols / 2; r++)
 		{
-			dest(r, contor) = k1[r];
+			dest(contor,r) = k1[r];
 		}
 		contor++;
 		free(k);
 		free(k1);
 	}
 	contor = 0;
-	for (int i = 0; i < dest.rows; i++)
+	for (int i = 0; i < dest.cols; i++)
 	{
-		int* k = (int*)malloc(sizeof(int) * dest.cols);
-		for (int j = 0; j < dest.cols; j++)
+		int* k = (int*)malloc(sizeof(int) * dest.rows);
+		for (int j = 0; j < dest.rows; j++)
 		{
-			k[j] = dest(i, j);
+			k[j] = dest(j,i);
 		}
-		int* k1 = getHigh(k, dest.cols);
-		for (int r = 0; r < dest.cols / 2; r++)
+		int* k1 = getHigh(k, dest.rows);
+		for (int r = 0; r < dest.rows / 2; r++)
 		{
-			LH(contor, r) = k1[r];
+			LH(r,contor) = k1[r];
 		}
 		contor++;
 		free(k);
@@ -403,36 +403,36 @@ Mat_<uchar> LH(Mat_<uchar> img)
 Mat_<uchar> HL(Mat_<uchar> img)
 {
 	int contor = 0;
-	Mat_<uchar> dest = Mat_<uchar>(img.rows / 2, img.cols);
+	Mat_<uchar> dest = Mat_<uchar>(img.rows, img.cols/2);
 	Mat_<uchar> HL = Mat_<uchar>(img.rows / 2, img.cols / 2);
-	for (int j = 0; j < img.cols; j++)
+	for (int j = 0; j < img.rows; j++)
 	{
-		int* k = (int*)malloc(sizeof(int) * img.rows);
-		for (int i = 0; i < img.rows; i++)
+		int* k = (int*)malloc(sizeof(int) * img.cols);
+		for (int i = 0; i < img.cols; i++)
 		{
-			k[i] = img(i, j);
+			k[i] = img(j,i);
 		}
-		int* k1 = getHigh(k, img.rows);
-		for (int r = 0; r < img.rows / 2; r++)
+		int* k1 = getHigh(k, img.cols);
+		for (int r = 0; r < img.cols / 2; r++)
 		{
-			dest(r, contor) = k1[r];
+			dest(contor,r) = k1[r];
 		}
 		contor++;
 		free(k);
 		free(k1);
 	}
 	contor = 0;
-	for (int i = 0; i < dest.rows; i++)
+	for (int i = 0; i < dest.cols; i++)
 	{
-		int* k = (int*)malloc(sizeof(int) * dest.cols);
-		for (int j = 0; j < dest.cols; j++)
+		int* k = (int*)malloc(sizeof(int) * dest.rows);
+		for (int j = 0; j < dest.rows; j++)
 		{
-			k[j] = dest(i, j);
+			k[j] = dest(j,i);
 		}
-		int* k1 = getLow(k, dest.cols);
-		for (int r = 0; r < dest.cols / 2; r++)
+		int* k1 = getLow(k, dest.rows);
+		for (int r = 0; r < dest.rows / 2; r++)
 		{
-			HL(contor, r) = k1[r];
+			HL(r,contor) = k1[r];
 		}
 		contor++;
 		free(k);
@@ -445,41 +445,183 @@ Mat_<uchar> HL(Mat_<uchar> img)
 Mat_<uchar> reconstructieLL(Mat_<uchar> img)
 {
 	int contor = 0;
-	Mat_<uchar> dest = Mat_<uchar>(img.rows, img.cols*2);
+	Mat_<uchar> dest = Mat_<uchar>(img.rows*2, img.cols);
 	Mat_<uchar> rec = Mat_<uchar>(img.rows*2, img.cols*2);
-	for (int j = 0; j < img.rows; j++)
+	for (int j = 0; j < img.cols; j++)
 	{
-		int* k = (int*)malloc(sizeof(int) * img.cols);
-		for (int i = 0; i < img.cols; i++)
+		int* k = (int*)malloc(sizeof(int) * img.rows);
+		for (int i = 0; i < img.rows; i++)
 		{
 			k[i] = img(i, j);
 		}
-		int* k1 = getHighSample(k, img.cols*2);
-		for (int r = 0; r < dest.cols; r++)
+		int* k1 = getHighSample(k, img.rows*2);
+		int* k2 = getLowSample(k, img.rows * 2);
+		for (int r = 0; r < dest.rows; r++)
 		{
-			dest(contor,r) = k1[r];
+			dest(r,contor) = k1[r]+k2[r];
 		}
 		contor++;
 		free(k);
 		free(k1);
+		free(k2);
 	}
 
 	contor = 0;
-	for (int i = 0; i < dest.cols; i++)
+	for (int i = 0; i < dest.rows; i++)
 	{
-		int* k = (int*)malloc(sizeof(int) * dest.rows);
-		for (int j = 0; j < dest.rows; j++)
+		int* k = (int*)malloc(sizeof(int) * dest.cols);
+		for (int j = 0; j < dest.cols; j++)
 		{
-			k[j] = dest(j, i);
+			k[j] = dest(i,j);
 		}
-		int* k1 = getHighSample(k, dest.rows*2);
-		for (int r = 0; r < rec.rows; r++)
+		int* k1 = getHighSample(k, dest.cols*2);
+		int* k2 = getLowSample(k, dest.cols * 2);
+		for (int r = 0; r < rec.cols; r++)
 		{
-			rec(r,contor) = k1[r];
+			rec(contor,r) = k1[r]+k2[r];
 		}
 		contor++;
 		free(k);
 		free(k1);
+		free(k2);
+	}
+	return rec;
+}
+
+Mat_<uchar> reconstructieLH(Mat_<uchar> img)
+{
+	int contor = 0;
+	Mat_<uchar> dest = Mat_<uchar>(img.rows * 2, img.cols);
+	Mat_<uchar> rec = Mat_<uchar>(img.rows * 2, img.cols * 2);
+	for (int j = 0; j < img.cols; j++)
+	{
+		int* k = (int*)malloc(sizeof(int) * img.rows);
+		for (int i = 0; i < img.rows; i++)
+		{
+			k[i] = img(i, j);
+		}
+		int* k1 = getLowSample(k, img.rows * 2);
+		int* k2 = getHighSample(k, img.rows * 2);
+		for (int r = 0; r < dest.rows; r++)
+		{
+			dest(r, contor) = k1[r]+k2[r];
+		}
+		contor++;
+		free(k);
+		free(k1);
+		free(k2);
+	}
+
+	contor = 0;
+	for (int i = 0; i < dest.rows; i++)
+	{
+		int* k = (int*)malloc(sizeof(int) * dest.cols);
+		for (int j = 0; j < dest.cols; j++)
+		{
+			k[j] = dest(i, j);
+		}
+		int* k1 = getHighSample(k, dest.cols * 2);
+		int* k2 = getLowSample(k, dest.cols * 2);
+		for (int r = 0; r < rec.cols; r++)
+		{
+			rec(contor, r) = k1[r]+k2[r];
+		}
+		contor++;
+		free(k);
+		free(k1);
+		free(k2);
+	}
+	return rec;
+}
+
+Mat_<uchar> reconstructieHL(Mat_<uchar> img)
+{
+	int contor = 0;
+	Mat_<uchar> dest = Mat_<uchar>(img.rows * 2, img.cols);
+	Mat_<uchar> rec = Mat_<uchar>(img.rows * 2, img.cols * 2);
+	for (int j = 0; j < img.cols; j++)
+	{
+		int* k = (int*)malloc(sizeof(int) * img.rows);
+		for (int i = 0; i < img.rows; i++)
+		{
+			k[i] = img(i, j);
+		}
+		int* k1 = getHighSample(k, img.rows * 2);
+		int* k2 = getLowSample(k, img.rows * 2);
+		for (int r = 0; r < dest.rows; r++)
+		{
+			dest(r, contor) = k1[r]+k2[r];
+		}
+		contor++;
+		free(k);
+		free(k1);
+		free(k2);
+	}
+
+	contor = 0;
+	for (int i = 0; i < dest.rows; i++)
+	{
+		int* k = (int*)malloc(sizeof(int) * dest.cols);
+		for (int j = 0; j < dest.cols; j++)
+		{
+			k[j] = dest(i, j);
+		}
+		int* k1 = getLowSample(k, dest.cols * 2);
+		int* k2 = getHighSample(k, dest.cols * 2);
+		for (int r = 0; r < rec.cols; r++)
+		{
+			rec(contor, r) = k1[r]+k2[r];
+		}
+		contor++;
+		free(k);
+		free(k1);
+		free(k2);
+	}
+	return rec;
+}
+
+Mat_<uchar> reconstructieHH(Mat_<uchar> img)
+{
+	int contor = 0;
+	Mat_<uchar> dest = Mat_<uchar>(img.rows * 2, img.cols);
+	Mat_<uchar> rec = Mat_<uchar>(img.rows * 2, img.cols * 2);
+	for (int j = 0; j < img.cols; j++)
+	{
+		int* k = (int*)malloc(sizeof(int) * img.rows);
+		for (int i = 0; i < img.rows; i++)
+		{
+			k[i] = img(i, j);
+		}
+		int* k1 = getLowSample(k, img.rows * 2);
+		int* k2 = getHighSample(k, img.rows * 2);
+		for (int r = 0; r < dest.rows; r++)
+		{
+			dest(r, contor) = k1[r]+k2[r];
+		}
+		contor++;
+		free(k);
+		free(k1);
+		free(k2);
+	}
+
+	contor = 0;
+	for (int i = 0; i < dest.rows; i++)
+	{
+		int* k = (int*)malloc(sizeof(int) * dest.cols);
+		for (int j = 0; j < dest.cols; j++)
+		{
+			k[j] = dest(i, j);
+		}
+		int* k1 = getLowSample(k, dest.cols * 2);
+		int* k2 = getHighSample(k, dest.cols * 2);
+		for (int r = 0; r < rec.cols; r++)
+		{
+			rec(contor, r) = k1[r]+k2[r];
+		}
+		contor++;
+		free(k);
+		free(k1);
+		free(k2);
 	}
 	return rec;
 }
@@ -495,20 +637,39 @@ void wavelet2D()
 	Mat_<uchar> HLmat = Mat_<uchar>(img.rows / 2, img.cols / 2);
 	Mat_<uchar> HHmat = Mat_<uchar>(img.rows / 2, img.cols / 2);
 	Mat_<uchar> RecLLmat = Mat_<uchar>(img.rows, img.cols);
+	Mat_<uchar> RecLHmat = Mat_<uchar>(img.rows, img.cols);
+	Mat_<uchar> RecHLmat = Mat_<uchar>(img.rows, img.cols);
+	Mat_<uchar> RecHHmat = Mat_<uchar>(img.rows, img.cols);
+	Mat_<uchar> Recmat = Mat_<uchar>(img.rows, img.cols);
 
 	LLmat = LL(img);
 	HHmat = HH(img);
 	LHmat = LH(img);
 	HLmat = HL(img);
-	//RecLLmat = reconstructieLL(LLmat);
 
+	RecLLmat = reconstructieLL(LLmat);
+	RecLHmat = reconstructieLL(LHmat);
+	RecHLmat = reconstructieLL(HLmat);
+	RecHHmat = reconstructieLL(HHmat);
+
+	for (int i = 0; i < img.rows; i++)
+	{
+		for (int j = 0; j < img.cols; j++)
+		{
+			Recmat(i, j) = RecLLmat(i, j) + RecLHmat(i, j) + RecHLmat(i, j) + RecHHmat(i, j);
+		}
+	}
 
 	imshow("Imagine", img);
-	imshow("HHmat", HHmat);
-	imshow("LLmat", LLmat);
-	imshow("LHmat", LHmat);
-	imshow("HLmat", HLmat);
-	//imshow("ImagineRec", RecLLmat);
+	//imshow("HHmat", HHmat);
+	//imshow("LLmat", LLmat);
+	//imshow("LHmat", LHmat);
+	//imshow("HLmat", HLmat);
+	imshow("ImagineRecLL", RecLLmat);
+	imshow("ImagineRecLH", RecLHmat);
+	imshow("ImagineRecHL", RecHLmat);
+	imshow("ImagineRecHH", RecHHmat);
+	imshow("ImagineRec", Recmat);
 	waitKey();
 }
 
