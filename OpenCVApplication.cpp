@@ -1,8 +1,10 @@
-// OpenCVApplication.cpp : Defines the entry point for the console application.
+﻿// OpenCVApplication.cpp : Defines the entry point for the console application.
 //
 
 #include "stdafx.h"
 #include "common.h"
+
+////// nuclee de convolutie 
 
 int H[] = { 1, -1 };
 int G[] = { 1, 1 };
@@ -510,6 +512,64 @@ void wavelet2D()
 	waitKey();
 }
 
+Mat_<uchar> coef_to_0(Mat_<uchar> img, int th) {
+	Mat_<uchar> dst(img.rows, img.cols);
+	for (int i = 0; i < img.rows; i++)
+	{
+		for (int j = 0; j < img.cols; j++) {
+			if (img(i, j) < th) {
+				dst(i, j) = 0;
+			}
+			else {
+				dst(i, j) = img(i, j);
+			}
+		}
+	}
+	return dst;
+}
+
+double MeanSquareError(Mat_<uchar> original, Mat_<uchar> result)
+{
+	double mse = 0, mseFin = 0;
+	for (int i = 0; i < original.rows; i++)
+	{
+		for (int j = 0; j < original.cols; j++)
+		{
+			mse += abs(original[i][j] - result[i][j]);
+		}
+	}
+	mse /= (double)(original.rows * original.cols);
+	mseFin = sqrt(mse);
+	return mseFin;
+}
+
+void MSE()
+{
+	char fname[MAX_PATH];
+	openFileDlg(fname);
+	Mat_<uchar> img = imread(fname, IMREAD_GRAYSCALE);
+	Mat_<uchar> LLmat = LL(img);
+	Mat_<uchar> LHmat = LH(img);
+	Mat_<uchar> HLmat = HL(img);
+	Mat_<uchar> HHmat = HH(img);
+
+	int th = 100;
+
+	Mat_<uchar> LLmatCoef = coef_to_0(LLmat,th);
+	Mat_<uchar> LHmatCoef = coef_to_0(LHmat, th);
+	Mat_<uchar> HLmatCoef = coef_to_0(HLmat, th);
+	Mat_<uchar> HHmatCoef = coef_to_0(HHmat, th);
+
+	double mseLL = MeanSquareError(LLmat, LLmatCoef);
+	double mseLH = MeanSquareError(LHmat, LHmatCoef);
+	double mseHL = MeanSquareError(HLmat, HLmatCoef);
+	double mseHH = MeanSquareError(HHmat, HHmatCoef);
+
+	printf("LL mse: %f\n LH mse: %f\n HL mse: %f\n HH mse: %f\n", mseLL, mseLH, mseHL, mseHH);
+
+	imshow("Imagine", img);
+	waitKey(0);
+}
 int main()
 {
 	int op;
@@ -525,6 +585,7 @@ int main()
 		printf(" 4 - Test Wavelet\n");
 		printf(" 5 - Wavelet1D\n");
 		printf(" 6 - Wavelet2D\n");
+		printf(" 7 - MSE\n");
 		printf(" 0 - Exit\n\n");
 		printf("Option: ");
 		scanf("%d",&op);
@@ -547,6 +608,9 @@ int main()
 				break;
 			case 6:
 				wavelet2D();
+				break;
+			case 7:
+				MSE();
 				break;
 		}
 	}
