@@ -278,11 +278,11 @@ void wavelet1D()
 	waitKey();
 }
 
-Mat_<uchar> LL(Mat_<uchar> img)
+Mat_<int> LL(Mat_<int> img)
 {
 	int contor = 0;
-	Mat_<uchar> dest = Mat_<uchar>(img.rows, img.cols / 2);
-	Mat_<uchar> LL = Mat_<uchar>(img.rows / 2, img.cols / 2);
+	Mat_<int> dest = Mat_<int>(img.rows, img.cols / 2);
+	Mat_<int> LL = Mat_<int>(img.rows / 2, img.cols / 2);
 	for (int j = 0; j < img.rows; j++)
 	{
 		int* k = (int*)malloc(sizeof(int) * img.cols);
@@ -319,11 +319,11 @@ Mat_<uchar> LL(Mat_<uchar> img)
 	return LL;
 }
 
-Mat_<uchar> HH(Mat_<uchar> img)
+Mat_<int> HH(Mat_<int> img)
 {
 	int contor = 0;
-	Mat_<uchar> dest = Mat_<uchar>(img.rows, img.cols / 2);
-	Mat_<uchar> HH = Mat_<uchar>(img.rows / 2, img.cols / 2);
+	Mat_<int> dest = Mat_<int>(img.rows, img.cols / 2);
+	Mat_<int> HH = Mat_<int>(img.rows / 2, img.cols / 2);
 	for (int j = 0; j < img.rows; j++)
 	{
 		int* k = (int*)malloc(sizeof(int) * img.cols);
@@ -359,11 +359,11 @@ Mat_<uchar> HH(Mat_<uchar> img)
 	}
 	return HH;
 }
-Mat_<uchar> LH(Mat_<uchar> img)
+Mat_<int> LH(Mat_<int> img)
 {
 	int contor = 0;
-	Mat_<uchar> dest = Mat_<uchar>(img.rows, img.cols / 2);
-	Mat_<uchar> LH = Mat_<uchar>(img.rows / 2, img.cols / 2);
+	Mat_<int> dest = Mat_<int>(img.rows, img.cols / 2);
+	Mat_<int> LH = Mat_<int>(img.rows / 2, img.cols / 2);
 	for (int j = 0; j < img.rows; j++)
 	{
 		int* k = (int*)malloc(sizeof(int) * img.cols);
@@ -400,11 +400,11 @@ Mat_<uchar> LH(Mat_<uchar> img)
 	return LH;
 }
 
-Mat_<uchar> HL(Mat_<uchar> img)
+Mat_<int> HL(Mat_<int> img)
 {
 	int contor = 0;
-	Mat_<uchar> dest = Mat_<uchar>(img.rows, img.cols / 2);
-	Mat_<uchar> HL = Mat_<uchar>(img.rows / 2, img.cols / 2);
+	Mat_<int> dest = Mat_<int>(img.rows, img.cols / 2);
+	Mat_<int> HL = Mat_<int>(img.rows / 2, img.cols / 2);
 	for (int j = 0; j < img.rows; j++)
 	{
 		int* k = (int*)malloc(sizeof(int) * img.cols);
@@ -442,12 +442,12 @@ Mat_<uchar> HL(Mat_<uchar> img)
 }
 
 
-Mat_<uchar> reconstructie_prelucrare(Mat_<uchar> imgLL, Mat_<uchar> imgLH, Mat_<uchar> imgHL, Mat_<uchar> imgHH)
+Mat_<uchar> reconstructie_prelucrare(Mat_<int> imgLL, Mat_<int> imgLH, Mat_<int> imgHL, Mat_<int> imgHH)
 {
 	int contor = 0;
-	Mat_<uchar> L = Mat_<uchar>(imgLL.rows * 2, imgLL.cols);
-	Mat_<uchar> H = Mat_<uchar>(imgLL.rows * 2, imgLL.cols);
-	Mat_<uchar> rec = Mat_<uchar>(imgLL.rows * 2, imgLL.cols * 2);
+	Mat_<int> L = Mat_<int>(imgLL.rows * 2, imgLL.cols);
+	Mat_<int> H = Mat_<int>(imgLL.rows * 2, imgLL.cols);
+	Mat_<uchar> rec = Mat_<int>(imgLL.rows * 2, imgLL.cols * 2);
 	for (int j = 0; j < imgLL.cols; j++)
 	{
 		int* kLL = (int*)malloc(sizeof(int) * imgLL.rows);
@@ -519,64 +519,53 @@ Mat_<uchar> reconstructie_prelucrare(Mat_<uchar> imgLL, Mat_<uchar> imgLH, Mat_<
 	return rec;
 }
 
+Mat_<uchar> add128(Mat_<int> src) {
+	Mat_<uchar> dst(src.rows, src.cols);
 
-/*Mat_<uchar> reconstructie(Mat_<uchar> img, Mat_<uchar> LL, Mat_<uchar> LH, Mat_<uchar> HL, Mat_<uchar> HH) {
-	Mat_<uchar> RecLLmat = Mat_<uchar>(img.rows, img.cols);
-	Mat_<uchar> RecLHmat = Mat_<uchar>(img.rows, img.cols);
-	Mat_<uchar> RecHLmat = Mat_<uchar>(img.rows, img.cols);
-	Mat_<uchar> RecHHmat = Mat_<uchar>(img.rows, img.cols);
-	Mat_<uchar> Recmat = Mat_<uchar>(img.rows, img.cols);
-
-
-	RecLLmat = reconstructieLL(LL);
-	RecLHmat = reconstructieLH(LH);
-	RecHLmat = reconstructieHL(HL);
-	RecHHmat = reconstructieHH(HH);
-
-
-	for (int i = 0; i < img.rows; i++)
-	{
-		for (int j = 0; j < img.cols; j++)
-		{
-			Recmat(i, j) = RecLLmat(i, j)+ RecLHmat(i, j) + RecHLmat(i, j) + RecHHmat(i, j);
+	for (int i = 0; i < src.rows; i++) {
+		for (int j = 0; j < src.rows; j++) {
+			dst(i, j) = (src(i, j) + 128) % 255;
 		}
 	}
-
-	imshow("ImagineRecLL", RecLLmat);
-	imshow("ImagineRecLH", RecLHmat);
-	imshow("ImagineRecHL", RecHLmat);
-	imshow("ImagineRecHH", RecHHmat);
-	waitKey();
-
-	return Recmat;
-
-}*/
+	return dst;
+}
 
 void wavelet2D()
 {
 	char fname[MAX_PATH];
 	openFileDlg(fname);
-	Mat_<uchar> img = imread(fname, IMREAD_GRAYSCALE);
-	Mat_<uchar> LLmat = Mat_<uchar>(img.rows / 2, img.cols / 2);
-	Mat_<uchar> LHmat = Mat_<uchar>(img.rows / 2, img.cols / 2);
-	Mat_<uchar> HLmat = Mat_<uchar>(img.rows / 2, img.cols / 2);
-	Mat_<uchar> HHmat = Mat_<uchar>(img.rows / 2, img.cols / 2);
+	Mat_<int> img = imread(fname, IMREAD_GRAYSCALE);
+	Mat_<int> LLmat = Mat_<int>(img.rows / 2, img.cols / 2);
+	Mat_<int> LHmat = Mat_<int>(img.rows / 2, img.cols / 2);
+	Mat_<int> HLmat = Mat_<int>(img.rows / 2, img.cols / 2);
+	Mat_<int> HHmat = Mat_<int>(img.rows / 2, img.cols / 2);
 
 	Mat_<uchar> Recmat = Mat_<uchar>(img.rows, img.cols);
+
+	Mat_<uchar> afisLLmat = Mat_<uchar>(img.rows / 2, img.cols / 2);
+	Mat_<uchar> afisLHmat = Mat_<uchar>(img.rows / 2, img.cols / 2);
+	Mat_<uchar> afisHLmat = Mat_<uchar>(img.rows / 2, img.cols / 2);
+	Mat_<uchar> afisHHmat = Mat_<uchar>(img.rows / 2, img.cols / 2);
+	Mat_<uchar> afissLLmat = Mat_<uchar>(img.rows / 2, img.cols / 2);
 
 	LLmat = LL(img);
 	HHmat = HH(img);
 	LHmat = LH(img);
 	HLmat = HL(img);
 
+	afisLLmat = add128(LLmat);
+	afisHHmat = add128(HHmat);
+	afisLHmat = add128(LHmat);
+	afisHLmat = add128(HLmat);
+	afissLLmat = LLmat;
 
 	Recmat = reconstructie_prelucrare(LLmat, LHmat, HLmat, HHmat);
 
-	imshow("Imagine", img);
-	imshow("HHmat", HHmat);
-	imshow("LLmat", LLmat);
-	imshow("LHmat", LHmat);
-	imshow("HLmat", HLmat);
+	//imshow("Imagine", img);
+	imshow("HHmat", afisHHmat);
+	imshow("LLmat", afissLLmat);
+	imshow("LHmat", afisLHmat);
+	imshow("HLmat", afisHLmat);
 
 	imshow("ImagineRec", Recmat);
 	waitKey();
@@ -635,9 +624,10 @@ void MSE()
 	double mseHL = MeanSquareError(HLmat, HLmatCoef);
 	double mseHH = MeanSquareError(HHmat, HHmatCoef);
 
+	printf("Threshold: %d\n", th);
 	printf("LL mse: %f\n LH mse: %f\n HL mse: %f\n HH mse: %f\n", mseLL, mseLH, mseHL, mseHH);
 
-	Mat_<uchar> Recmat = reconstructie_prelucrare(LLmat, LHmat, HLmat, HHmat);
+	Mat_<uchar> Recmat = reconstructie_prelucrare(LLmatCoef, LHmatCoef, HLmatCoef, HHmatCoef);
 	double mse = MeanSquareError(img, Recmat);
 
 	printf("MSE final = %f", mse);
